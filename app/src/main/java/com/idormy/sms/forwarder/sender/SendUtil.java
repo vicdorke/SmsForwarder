@@ -1,5 +1,16 @@
 package com.idormy.sms.forwarder.sender;
 
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_FEISHU;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SMS;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_TELEGRAM;
+import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
+
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
@@ -11,6 +22,7 @@ import com.idormy.sms.forwarder.model.SenderModel;
 import com.idormy.sms.forwarder.model.vo.BarkSettingVo;
 import com.idormy.sms.forwarder.model.vo.DingDingSettingVo;
 import com.idormy.sms.forwarder.model.vo.EmailSettingVo;
+import com.idormy.sms.forwarder.model.vo.FeiShuSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXAppSettingVo;
 import com.idormy.sms.forwarder.model.vo.QYWXGroupRobotSettingVo;
 import com.idormy.sms.forwarder.model.vo.ServerChanSettingVo;
@@ -24,18 +36,8 @@ import com.idormy.sms.forwarder.utils.RuleUtil;
 
 import java.util.List;
 
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_BARK;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_DINGDING;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_EMAIL;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_APP;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_QYWX_GROUP_ROBOT;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SERVER_CHAN;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_SMS;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_TELEGRAM;
-import static com.idormy.sms.forwarder.model.SenderModel.TYPE_WEB_NOTIFY;
-
 public class SendUtil {
-    private static String TAG = "SendUtil";
+    private static final String TAG = "SendUtil";
 
     public static void send_msg_list(Context context, List<SmsVo> smsVoList, int simId) {
         Log.i(TAG, "send_msg_list size: " + smsVoList.size());
@@ -50,10 +52,10 @@ public class SendUtil {
         LogUtil.init(context);
 
         String key = "SIM" + simId;
-        List<RuleModel> rulelist = RuleUtil.getRule(null, key);
-        if (!rulelist.isEmpty()) {
+        List<RuleModel> ruleList = RuleUtil.getRule(null, key);
+        if (!ruleList.isEmpty()) {
             SenderUtil.init(context);
-            for (RuleModel ruleModel : rulelist) {
+            for (RuleModel ruleModel : ruleList) {
                 //规则匹配发现需要发送
                 try {
                     if (ruleModel.checkMsg(smsVo)) {
@@ -112,7 +114,7 @@ public class SendUtil {
                     DingDingSettingVo dingDingSettingVo = JSON.parseObject(senderModel.getJsonSetting(), DingDingSettingVo.class);
                     if (dingDingSettingVo != null) {
                         try {
-                            SenderDingdingMsg.sendMsg(logId, handError, dingDingSettingVo.getToken(), dingDingSettingVo.getSecret(), dingDingSettingVo.getAtMobils(), dingDingSettingVo.getAtAll(), smsVo.getSmsVoForSend());
+                            SenderDingdingMsg.sendMsg(logId, handError, dingDingSettingVo.getToken(), dingDingSettingVo.getSecret(), dingDingSettingVo.getAtMobiles(), dingDingSettingVo.getAtAll(), smsVo.getSmsVoForSend());
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: dingding error " + e.getMessage());
@@ -143,7 +145,7 @@ public class SendUtil {
                     BarkSettingVo barkSettingVo = JSON.parseObject(senderModel.getJsonSetting(), BarkSettingVo.class);
                     if (barkSettingVo != null) {
                         try {
-                            SenderBarkMsg.sendMsg(logId, handError, barkSettingVo.getServer(), smsVo.getMobile(), smsVo.getSmsVoForSend());
+                            SenderBarkMsg.sendMsg(logId, handError, barkSettingVo.getServer(), barkSettingVo.getIcon(), smsVo.getMobile(), smsVo.getSmsVoForSend(), senderModel.getName());
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: SenderBarkMsg error " + e.getMessage());
@@ -158,7 +160,7 @@ public class SendUtil {
                     WebNotifySettingVo webNotifySettingVo = JSON.parseObject(senderModel.getJsonSetting(), WebNotifySettingVo.class);
                     if (webNotifySettingVo != null) {
                         try {
-                            SenderWebNotifyMsg.sendMsg(logId, handError, webNotifySettingVo.getWebServer(), webNotifySettingVo.getSecret(), webNotifySettingVo.getMethod(), smsVo.getMobile(), smsVo.getSmsVoForSend());
+                            SenderWebNotifyMsg.sendMsg(logId, handError, webNotifySettingVo.getWebServer(), webNotifySettingVo.getWebParams(), webNotifySettingVo.getSecret(), webNotifySettingVo.getMethod(), smsVo.getMobile(), smsVo.getSmsVoForSend());
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: SenderWebNotifyMsg error " + e.getMessage());
@@ -233,7 +235,7 @@ public class SendUtil {
                     SmsSettingVo smsSettingVo = JSON.parseObject(senderModel.getJsonSetting(), SmsSettingVo.class);
                     if (smsSettingVo != null) {
                         //仅当无网络时启用
-                        if (true == smsSettingVo.getOnlyNoNetwork() && 0 != NetUtil.getNetWorkStatus()) {
+                        if (smsSettingVo.getOnlyNoNetwork() && 0 != NetUtil.getNetWorkStatus()) {
                             String msg = "仅当无网络时启用，当前网络状态：" + NetUtil.getNetWorkStatus();
                             LogUtil.updateLog(logId, 0, msg);
                             Log.d(TAG, msg);
@@ -249,6 +251,21 @@ public class SendUtil {
                         } catch (Exception e) {
                             LogUtil.updateLog(logId, 0, e.getMessage());
                             Log.e(TAG, "senderSendMsg: SenderSmsMsg error " + e.getMessage());
+                        }
+                    }
+                }
+                break;
+
+            case TYPE_FEISHU:
+                //try phrase json setting
+                if (senderModel.getJsonSetting() != null) {
+                    FeiShuSettingVo feiShuSettingVo = JSON.parseObject(senderModel.getJsonSetting(), FeiShuSettingVo.class);
+                    if (feiShuSettingVo != null) {
+                        try {
+                            SenderFeishuMsg.sendMsg(logId, handError, feiShuSettingVo.getWebhook(), feiShuSettingVo.getSecret(), smsVo.getSmsVoForSend());
+                        } catch (Exception e) {
+                            LogUtil.updateLog(logId, 0, e.getMessage());
+                            Log.e(TAG, "senderSendMsg: feishu error " + e.getMessage());
                         }
                     }
                 }

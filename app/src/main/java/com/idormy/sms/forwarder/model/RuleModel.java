@@ -1,6 +1,9 @@
 package com.idormy.sms.forwarder.model;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.idormy.sms.forwarder.R;
 import com.idormy.sms.forwarder.model.vo.SmsVo;
@@ -8,26 +11,32 @@ import com.idormy.sms.forwarder.utils.RuleLineUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import lombok.Data;
+
+@SuppressWarnings({"unused", "LoopStatementThatDoesntLoop"})
+@Data
 public class RuleModel {
     public static final String FILED_TRANSPOND_ALL = "transpond_all";
     public static final String FILED_PHONE_NUM = "phone_num";
     public static final String FILED_MSG_CONTENT = "msg_content";
     public static final String FILED_MULTI_MATCH = "multi_match";
-    public static final Map<String, String> FILED_MAP = new HashMap<String, String>();
+    public static final Map<String, String> FILED_MAP = new HashMap<>();
     public static final String CHECK_IS = "is";
     public static final String CHECK_CONTAIN = "contain";
+    public static final String CHECK_NOT_CONTAIN = "notcontain";
     public static final String CHECK_START_WITH = "startwith";
     public static final String CHECK_END_WITH = "endwith";
     public static final String CHECK_NOT_IS = "notis";
     public static final String CHECK_REGEX = "regex";
-    public static final Map<String, String> CHECK_MAP = new HashMap<String, String>();
+    public static final Map<String, String> CHECK_MAP = new HashMap<>();
     public static final String CHECK_SIM_SLOT_ALL = "ALL";
     public static final String CHECK_SIM_SLOT_1 = "SIM1";
     public static final String CHECK_SIM_SLOT_2 = "SIM2";
-    public static final Map<String, String> SIM_SLOT_MAP = new HashMap<String, String>();
+    public static final Map<String, String> SIM_SLOT_MAP = new HashMap<>();
 
     static {
         FILED_MAP.put("transpond_all", "全部转发");
@@ -38,10 +47,11 @@ public class RuleModel {
 
     static {
         CHECK_MAP.put("is", "是");
+        CHECK_MAP.put("notis", "不是");
         CHECK_MAP.put("contain", "包含");
         CHECK_MAP.put("startwith", "开头是");
         CHECK_MAP.put("endwith", "结尾是");
-        CHECK_MAP.put("notis", "不是");
+        CHECK_MAP.put("notcontain", "不包含");
         CHECK_MAP.put("regex", "正则匹配");
     }
 
@@ -69,6 +79,7 @@ public class RuleModel {
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     public static String getRuleFiledFromCheckId(int id) {
         switch (id) {
             case R.id.btnContent:
@@ -82,6 +93,7 @@ public class RuleModel {
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     public static String getRuleCheckFromCheckId(int id) {
         switch (id) {
             case R.id.btnContain:
@@ -92,13 +104,14 @@ public class RuleModel {
                 return CHECK_END_WITH;
             case R.id.btnRegex:
                 return CHECK_REGEX;
-            case R.id.btnNotIs:
-                return CHECK_NOT_IS;
+            case R.id.btnNotContain:
+                return CHECK_NOT_CONTAIN;
             default:
                 return CHECK_IS;
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     public static String getRuleSimSlotFromCheckId(int id) {
         switch (id) {
             case R.id.btnSimSlot1:
@@ -151,9 +164,17 @@ public class RuleModel {
                 case CHECK_IS:
                     checked = this.value.equals(msgValue);
                     break;
+                case CHECK_NOT_IS:
+                    checked = !this.value.equals(msgValue);
+                    break;
                 case CHECK_CONTAIN:
                     if (msgValue != null) {
                         checked = msgValue.contains(this.value);
+                    }
+                    break;
+                case CHECK_NOT_CONTAIN:
+                    if (msgValue != null) {
+                        checked = !msgValue.contains(this.value);
                     }
                     break;
                 case CHECK_START_WITH:
@@ -169,9 +190,14 @@ public class RuleModel {
                 case CHECK_REGEX:
                     if (msgValue != null) {
                         try {
-                            checked = Pattern.matches(this.value, msgValue);
+                            //checked = Pattern.matches(this.value, msgValue);
+                            Pattern pattern = Pattern.compile(this.value, Pattern.CASE_INSENSITIVE);
+                            Matcher matcher = pattern.matcher(msgValue);
+                            while (matcher.find()) {
+                                checked = true;
+                                break;
+                            }
                         } catch (PatternSyntaxException e) {
-                            checked = false;
                             Log.d(TAG, "PatternSyntaxException: ");
                             Log.d(TAG, "Description: " + e.getDescription());
                             Log.d(TAG, "Index: " + e.getIndex());
@@ -227,8 +253,8 @@ public class RuleModel {
                 return R.id.btnEndWith;
             case CHECK_REGEX:
                 return R.id.btnRegex;
-            case CHECK_NOT_IS:
-                return R.id.btnNotIs;
+            case CHECK_NOT_CONTAIN:
+                return R.id.btnNotContain;
             default:
                 return R.id.btnIs;
         }
@@ -245,63 +271,7 @@ public class RuleModel {
         }
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
-    }
-
-    public Long getTime() {
-        return time;
-    }
-
-    public void setTime(Long time) {
-        this.time = time;
-    }
-
-    public String getFiled() {
-        return filed;
-    }
-
-    public void setFiled(String filed) {
-        this.filed = filed;
-    }
-
-    public String getSimSlot() {
-        return simSlot;
-    }
-
-    public void setSimSlot(String simSlot) {
-        this.simSlot = simSlot;
-    }
-
-    public String getCheck() {
-        return check;
-    }
-
-    public void setCheck(String check) {
-        this.check = check;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-
+    @NonNull
     @Override
     public String toString() {
         return "RuleModel{" +

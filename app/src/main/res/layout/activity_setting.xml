@@ -21,17 +21,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设备名称"
+                android:text="@string/device_name"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/et_add_extra_device_mark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:ems="16"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:maxLines="1"
+                android:text=""
+                tools:ignore="LabelFor" />
 
         </LinearLayout>
 
@@ -52,25 +55,29 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SIM1备注"
+                    android:text="@string/sim1_remark"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="运营商_手机号"
-                    android:textSize="9dp" />
+                    android:text="@string/carrier_mobile"
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
             </LinearLayout>
 
             <EditText
                 android:id="@+id/et_add_extra_sim1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:ems="16"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:maxLines="1"
+                android:text=""
+                tools:ignore="LabelFor" />
 
         </LinearLayout>
 
@@ -91,50 +98,200 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SIM2备注"
+                    android:text="@string/sim2_remark"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="运营商_手机号"
-                    android:textSize="9dp" />
+                    android:text="@string/carrier_mobile"
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
             </LinearLayout>
 
             <EditText
                 android:id="@+id/et_add_extra_sim2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:ems="16"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:maxLines="1"
+                android:text=""
+                tools:ignore="LabelFor" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/low_power_alarm_threshold"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/low_power_alarm_threshold_tips"
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/et_battery_level_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:autofillHints=""
+                android:ems="16"
+                android:inputType="number"
+                android:maxLines="1"
+                android:text=""
+                tools:ignore="LabelFor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/retry_interval"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/retry_interval_tips"
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time1"
+                    android:layout_width="42dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time2"
+                    android:layout_width="42dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time3"
+                    android:layout_width="42dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time4"
+                    android:layout_width="42dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+
+                <EditText
+                    android:id="@+id/et_retry_delay_time5"
+                    android:layout_width="42dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:ems="16"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textAlignment="center"
+                    tools:ignore="LabelFor" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="15dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="转发时附加卡槽信息"
-                android:textStyle="bold" />
+                android:text="@string/forward_missed_calls"
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
 
             <Switch
-                android:id="@+id/switch_add_extra"
+                android:id="@+id/switch_enable_phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:gravity="end"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         </LinearLayout>
 
@@ -151,7 +308,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="转发时启用自定义模版"
+                android:text="@string/enable_custom_templates"
                 android:textStyle="bold" />
 
             <Switch
@@ -160,7 +317,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:gravity="end"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         </LinearLayout>
 
@@ -183,23 +341,27 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="转发信息模版"
+                    android:text="@string/custom_templates"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="Tip：按需插入内容标签；留空使用默认模版"
-                    android:textSize="11dp" />
+                    android:layout_marginStart="5dp"
+                    android:text="@string/custom_templates_tips"
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <EditText
                 android:id="@+id/text_sms_template"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType=""
-                android:text="" />
+                android:autofillHints=""
+                android:inputType="textMultiLine"
+                android:gravity="left|top"
+                android:minLines="1"
+                android:text=""
+                tools:ignore="LabelFor" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -215,83 +377,82 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="来源号码"
-                    tools:ignore="NestedWeights" />
-
-                <!--<Button
-                    android:id="@+id/bt_insert_receiver"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary"
-                    android:onClick="toInsertLabel"
-                    android:text="接收号码"
-                    tools:ignore="NestedWeights" />-->
+                    android:text="@string/insert_sender"
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_content"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="短信内容" />
+                    android:text="@string/insert_content"
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_extra"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="卡槽信息" />
+                    android:text="@string/insert_extra"
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_time"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="接收时间" />
+                    android:text="@string/insert_time"
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
                 <Button
                     android:id="@+id/bt_insert_device_name"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:onClick="toInsertLabel"
-                    android:text="设备名称" />
+                    android:text="@string/insert_device_name"
+                    tools:ignore="ButtonStyle,NestedWeights" />
 
             </LinearLayout>
 
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnInitSetting"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_margin="10dp"
             android:background="@color/colorPrimary"
             android:onClick="initSetting"
             android:padding="0dp"
-            android:text="恢复初始化配置" />
+            android:text="@string/init_setting" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            android:onClick="batterySetting"
+            android:padding="0dp"
+            android:text="@string/battery_setting" />
 
     </LinearLayout>
 

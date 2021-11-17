@@ -19,3 +19,25 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.idormy.sms.forwarder.model.**{*;}
+-keep class com.umeng.** {*;}
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-dontwarn com.sun.**
+-dontwarn javax.mail.**
+-dontwarn javax.activation.**
+-keep class com.sun.** { *;}
+-keep class javax.mail.** { *;}
+-keep class javax.activation.** { *;}
+-keep class com.smailnet.emailkit.** { *;}
+
+-keep class com.xuexiang.xupdate.entity.** { *; }
+-keep class com.xuexiang.xupdatedemo.entity.** { *; }
+

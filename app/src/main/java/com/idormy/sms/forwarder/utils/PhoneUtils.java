@@ -24,15 +24,17 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+@SuppressWarnings({"deprecation", "rawtypes", "unchecked", "CommentedOutCode", "SynchronizeOnNonFinalField", "unused", "SameReturnValue"})
 public class PhoneUtils {
     static Boolean hasInit = false;
+    @SuppressLint("StaticFieldLeak")
     static Context context;
-    private static String TAG = "PhoneUtils";
+    private static final String TAG = "PhoneUtils";
 
     /**
      * 构造类
@@ -109,7 +111,7 @@ public class PhoneUtils {
         } catch (Exception ignored) {
 
         }
-        return getUniquePsuedoID();
+        return getUniquePseudoID();
     }
 
     /**
@@ -118,7 +120,7 @@ public class PhoneUtils {
      *
      * @return 伪唯一ID
      */
-    public static String getUniquePsuedoID() {
+    public static String getUniquePseudoID() {
         String m_szDevIDShort = "35" +
                 Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
                 Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 +
@@ -130,7 +132,7 @@ public class PhoneUtils {
 
         String serial;
         try {
-            serial = android.os.Build.class.getField("SERIAL").get(null).toString();
+            serial = Objects.requireNonNull(Build.class.getField("SERIAL").get(null)).toString();
             return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
         } catch (Exception e) {
             //获取失败，使用AndroidId
@@ -217,10 +219,10 @@ public class PhoneUtils {
     public static String getSimSerialNumber() {
         try {
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            String serialNumber = tm != null ? tm.getSimSerialNumber() : null;
+            @SuppressLint("HardwareIds") String serialNumber = tm != null ? tm.getSimSerialNumber() : null;
 
             return serialNumber != null ? serialNumber : "";
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         return "";
@@ -247,7 +249,7 @@ public class PhoneUtils {
      *
      * @return 电话号码
      */
-    @SuppressLint("MissingPermission")
+    @SuppressLint({"MissingPermission", "HardwareIds"})
     public static String getPhoneNumber() {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         try {
@@ -267,6 +269,7 @@ public class PhoneUtils {
      *
      * @return 返回卡槽数
      */
+    @SuppressLint("ObsoleteSdkInt")
     public static int getSimCount() {
         int count = 1;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -280,7 +283,7 @@ public class PhoneUtils {
             }
         }
         try {
-            count = Integer.parseInt(getReflexMethod(context, "getPhoneCount"));
+            count = Integer.parseInt(getReflexMethod(context));
         } catch (MethodNotFoundException ignored) {
         }
         return count;
@@ -291,6 +294,7 @@ public class PhoneUtils {
      *
      * @return 0, 1, 2
      */
+    @SuppressLint("ObsoleteSdkInt")
     public static int getSimUsedCount() {
         int count = 0;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -323,6 +327,7 @@ public class PhoneUtils {
      *
      * @return 多Sim卡的具体信息
      */
+    @SuppressLint("ObsoleteSdkInt")
     public static List<SimInfo> getSimMultiInfo() {
         List<SimInfo> infos = new ArrayList<>();
         Log.d(TAG, "Build.VERSION.SDK_INT = " + Build.VERSION.SDK_INT);
@@ -334,9 +339,7 @@ public class PhoneUtils {
             List<SubscriptionInfo> activeSubscriptionInfoList = null;
             if (mSubscriptionManager != null) {
                 try {
-                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-                        //TODO
-                    }
+                    ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE);
                     activeSubscriptionInfoList = mSubscriptionManager.getActiveSubscriptionInfoList();
                 } catch (Exception ignored) {
                 }
@@ -414,10 +417,10 @@ public class PhoneUtils {
             String imsi = null;
             try {
                 imsi = getReflexMethodWithId(context, "getSubscriberId", String.valueOf(i));
-            } catch (MethodNotFoundException ignored) {
-                Log.d(TAG, String.valueOf(ignored));
+            } catch (MethodNotFoundException e) {
+                Log.d(TAG, String.valueOf(e));
             }
-            if (!TextUtils.isEmpty(imsi) && !imsi.equals(getIMSI())) {
+            if (!TextUtils.isEmpty(imsi) && !Objects.equals(imsi, getIMSI())) {
                 return imsi;
             }
         }
@@ -456,23 +459,22 @@ public class PhoneUtils {
     /**
      * 通过反射调取@hide的方法
      *
-     * @param predictedMethodName 方法名
      * @return 返回方法调用的结果
      * @throws MethodNotFoundException 方法没有找到
      */
-    private static String getReflexMethod(Context context, String predictedMethodName) throws MethodNotFoundException {
+    private static String getReflexMethod(Context context) throws MethodNotFoundException {
         String result = null;
         TelephonyManager telephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         try {
             Class<?> telephonyClass = Class.forName(telephony.getClass().getName());
-            Method getSimID = telephonyClass.getMethod(predictedMethodName);
+            Method getSimID = telephonyClass.getMethod("getPhoneCount");
             Object ob_phone = getSimID.invoke(telephony);
             if (ob_phone != null) {
                 result = ob_phone.toString();
             }
         } catch (Exception e) {
             Log.d(TAG, String.valueOf(e.fillInStackTrace()));
-            throw new MethodNotFoundException(predictedMethodName);
+            throw new MethodNotFoundException("getPhoneCount");
         }
         return result;
     }
@@ -517,8 +519,7 @@ public class PhoneUtils {
     public static List removeDuplicateWithOrder(List list) {
         Set set = new HashSet();
         List newList = new ArrayList();
-        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-            Object element = iter.next();
+        for (Object element : list) {
             if (set.add(element))
                 newList.add(element);
         }
@@ -528,6 +529,7 @@ public class PhoneUtils {
     }
 
     // 检查权限是否获取（android6.0及以上系统可能默认关闭权限，且没提示）
+    @SuppressLint("InlinedApi")
     public static void CheckPermission(PackageManager pm, Context that) {
         //PackageManager pm = getPackageManager();
         boolean permission_internet = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.INTERNET", that.getPackageName()));
@@ -540,11 +542,14 @@ public class PhoneUtils {
         boolean permission_send_sms = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.SEND_SMS", that.getPackageName()));
         boolean permission_read_phone_state = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_PHONE_STATE", that.getPackageName()));
         boolean permission_read_phone_numbers = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_PHONE_NUMBERS", that.getPackageName()));
+        boolean permission_read_call_log = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_CALL_LOG", that.getPackageName()));
+        boolean permission_read_contacts = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.READ_CONTACTS", that.getPackageName()));
         boolean permission_battery_stats = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.BATTERY_STATS", that.getPackageName()));
 
         if (!(permission_internet && permission_receive_boot && permission_foreground_service &&
                 permission_read_external_storage && permission_write_external_storage &&
                 permission_receive_sms && permission_read_sms && permission_send_sms &&
+                permission_read_call_log && permission_read_contacts &&
                 permission_read_phone_state && permission_read_phone_numbers && permission_battery_stats)) {
             ActivityCompat.requestPermissions((Activity) that, new String[]{
                     Manifest.permission.INTERNET,
@@ -555,6 +560,8 @@ public class PhoneUtils {
                     Manifest.permission.READ_SMS,
                     Manifest.permission.SEND_SMS,
                     Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.READ_CALL_LOG,
+                    Manifest.permission.READ_CONTACTS,
                     Manifest.permission.READ_PHONE_NUMBERS,
                     Manifest.permission.FOREGROUND_SERVICE,
                     Manifest.permission.BATTERY_STATS,
@@ -601,15 +608,13 @@ public class PhoneUtils {
 
         /**
          * 通过 IMEI 判断是否相等
-         *
-         * @param obj
-         * @return
          */
         @Override
         public boolean equals(Object obj) {
-            return obj != null && obj instanceof SimInfo && (TextUtils.isEmpty(((SimInfo) obj).mImei) || ((SimInfo) obj).mImei.equals(mImei));
+            return obj instanceof SimInfo && (TextUtils.isEmpty(((SimInfo) obj).mImei) || ((SimInfo) obj).mImei.equals(mImei));
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "SimInfo{" +

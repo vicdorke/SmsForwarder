@@ -4,42 +4,23 @@ import com.idormy.sms.forwarder.R;
 
 import java.io.Serializable;
 
+import lombok.Data;
+
+@Data
 public class WebNotifySettingVo implements Serializable {
     private String webServer;
     private String secret;
     private String method;
+    private String webParams;
 
     public WebNotifySettingVo() {
     }
 
-    public WebNotifySettingVo(String webServer, String secret, String method) {
+    public WebNotifySettingVo(String webServer, String secret, String method, String webParams) {
         this.webServer = webServer;
         this.secret = secret;
         this.method = method;
-    }
-
-    public String getWebServer() {
-        return webServer;
-    }
-
-    public void setWebServer(String webServer) {
-        this.webServer = webServer;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
+        this.webParams = webParams;
     }
 
     public int getWebNotifyMethodCheckId() {
@@ -49,4 +30,6 @@ public class WebNotifySettingVo implements Serializable {
             return R.id.radioWebNotifyMethodGet;
         }
     }
+
+
 }

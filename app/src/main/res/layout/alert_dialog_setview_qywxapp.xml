@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -18,17 +19,19 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="设置名称"
+                android:gravity="end"
+                android:text="@string/set_name"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextQYWXAppName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:inputType=""
-                android:text="" />
+                android:layout_marginStart="5dp"
+                android:autofillHints=""
+                android:inputType="text"
+                android:text=""
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -41,17 +44,19 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="企业ID"
+                android:gravity="end"
+                android:text="@string/Corp_ID"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextQYWXAppCorpID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:inputType=""
-                android:text="" />
+                android:layout_marginStart="5dp"
+                android:autofillHints=""
+                android:inputType="text"
+                android:text=""
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,17 +69,19 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="AgentID"
+                android:gravity="end"
+                android:text="@string/Agent_ID"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextQYWXAppAgentID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:inputType=""
-                android:text="" />
+                android:layout_marginStart="5dp"
+                android:autofillHints=""
+                android:inputType="text"
+                android:text=""
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
 
@@ -88,17 +95,19 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="Secret"
+                android:gravity="end"
+                android:text="@string/App_Secret"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextQYWXAppSecret"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:autofillHints=""
                 android:inputType="textPassword"
-                android:text="" />
+                android:text=""
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -111,15 +120,16 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="是否@all"
+                android:gravity="end"
+                android:text="@string/is_at_all"
                 android:textStyle="bold" />
 
             <Switch
                 android:id="@+id/switchQYWXAppAtAll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="false" />
+                android:checked="false"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
@@ -138,17 +148,19 @@
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="指定成员"
+                    android:gravity="end"
+                    android:text="@string/specified_member"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/editTextQYWXAppToUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:inputType=""
-                    android:text="" />
+                    android:layout_marginStart="5dp"
+                    android:autofillHints=""
+                    android:inputType="text"
+                    android:text=""
+                    tools:ignore="LabelFor" />
             </LinearLayout>
 
             <TextView
@@ -156,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="Tip：指定接收消息的成员，成员ID列表（多个接收者用‘|’分隔，最多支持1000个）" />
+                android:text="@string/specified_member_tips" />
         </LinearLayout>
 
         <LinearLayout
@@ -166,27 +178,30 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonQYWXAppOk"
+                android:id="@+id/buttonQYWXAppTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/ok" />
+                android:text="@string/test"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
                 android:id="@+id/buttonQYWXAppDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/del" />
+                android:text="@string/del"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonQYWXAppTest"
+                android:id="@+id/buttonQYWXAppOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:text="@string/test" />
+                android:text="@string/ok"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
         </LinearLayout>
 

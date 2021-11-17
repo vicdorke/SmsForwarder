@@ -1,16 +1,23 @@
 package com.idormy.sms.forwarder.model.vo;
 
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 import com.idormy.sms.forwarder.utils.SettingUtil;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class SmsVo implements Serializable {
     String mobile;
     String content;
     Date date;
-    String simInfo = "SIM1_unknown_unknown";
+    String simInfo;
 
     public SmsVo() {
     }
@@ -22,49 +29,15 @@ public class SmsVo implements Serializable {
         this.simInfo = simInfo;
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getSimInfo() {
-        return simInfo;
-    }
-
-    public void setSimInfo(String simInfo) {
-        this.simInfo = simInfo;
-    }
-
+    @SuppressLint("SimpleDateFormat")
     public String getSmsVoForSend() {
         boolean switchAddExtra = SettingUtil.getSwitchAddExtra();
+        boolean switchAddDeviceName = SettingUtil.getSwitchAddDeviceName();
         boolean switchSmsTemplate = SettingUtil.getSwitchSmsTemplate();
         String smsTemplate = SettingUtil.getSmsTemplate().trim();
         String deviceMark = SettingUtil.getAddExtraDeviceMark().trim();
         if (!switchSmsTemplate) {
             smsTemplate = "{{来源号码}}\n{{短信内容}}\n{{卡槽信息}}\n{{接收时间}}\n{{设备名称}}";
-        }
-
-        if (!switchAddExtra) {
-            smsTemplate = smsTemplate.replace("{{卡槽信息}}\n", "").replace("{{卡槽信息}}", "");
         }
 
         return smsTemplate.replace("{{来源号码}}", mobile)
@@ -75,6 +48,7 @@ public class SmsVo implements Serializable {
                 .trim();
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "SmsVo{" +

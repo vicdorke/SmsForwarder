@@ -1,5 +1,7 @@
 package com.idormy.sms.forwarder.utils;
 
+import android.annotation.SuppressLint;
+
 import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
@@ -12,6 +14,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+@SuppressLint("ALL")
 public class CertUtils {
 
     //获取这个SSLSocketFactory

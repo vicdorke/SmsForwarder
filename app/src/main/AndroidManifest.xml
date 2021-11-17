@@ -2,10 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.idormy.sms.forwarder">
-    <uses-permission
-        android:name="android.permission.BATTERY_STATS"
-        tools:ignore="ProtectedPermissions" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 授予应用程序访问系统开机事件的权限 -->
     <uses-permission
@@ -13,14 +12,23 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <!--Android 9（API 级别 28）或更高版本并使用前台服务，则其必须请求 FOREGROUND_SERVICE 权限-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission
+        android:name="android.permission.BATTERY_STATS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:name=".MyApplication"
@@ -31,7 +39,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:fullBackupContent="@xml/backup_descriptor">
 
         <meta-data
             android:name="UPDATE_APP_KEY"
@@ -43,42 +52,69 @@
             android:name="UMENG_CHANNEL"
             android:value="Umeng" />
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            tools:ignore="IntentFilterExportedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:label="关于" />
+            android:label="@string/about"
+            tools:ignore="IntentFilterExportedReceiver">
+            <intent-filter>
+                <!--协议部分，随便设置-->
+                <data
+                    android:scheme="forwarder"
+                    android:host="main" />
+                <!--下面这几行也必须得设置-->
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".SettingActivity"
-            android:label="设置" />
+            android:label="@string/setting" />
+        <activity
+            android:name=".CloneActivity"
+            android:label="@string/clone" />
         <activity
             android:name=".RuleActivity"
-            android:label="转发规则" />
+            android:label="@string/rule_setting" />
         <activity
             android:name=".SenderActivity"
-            android:label="发送方" />
+            android:label="@string/sender_setting" />
 
-        <receiver android:name=".BroadCastReceiver.RebootBroadcastReceiver">
+        <receiver
+            android:name=".receiver.RebootBroadcastReceiver"
+            tools:ignore="IntentFilterExportedReceiver">
             <intent-filter android:priority="2147483647">
                 <!--重启广播-->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".BroadCastReceiver.SmsForwarderBroadcastReceiver"
-            android:permission="android.permission.BROADCAST_SMS">
+            android:name=".receiver.SmsForwarderBroadcastReceiver"
+            android:permission="android.permission.BROADCAST_SMS"
+            tools:ignore="IntentFilterExportedReceiver">
             <intent-filter android:priority="2147483647">
                 <!--短信广播-->
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".FrontService" />
+        <receiver
+            android:name=".receiver.PhoneStateReceiver"
+            tools:ignore="IntentFilterExportedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".service.FrontService" />
     </application>
 
 </manifest>

@@ -2,6 +2,9 @@ package com.idormy.sms.forwarder.model.vo;
 
 import com.idormy.sms.forwarder.R;
 
+import lombok.Data;
+
+@Data
 public class LogVo {
     private Long id;
     private String from;
@@ -28,61 +31,9 @@ public class LogVo {
         this.forwardResponse = forwardResponse;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getSimInfo() {
-        return simInfo;
-    }
-
-    public void setSimInfo(String simInfo) {
-        this.simInfo = simInfo;
-    }
-
-    public String getRule() {
-        return rule;
-    }
-
-    public void setRule(String rule) {
-        this.rule = rule;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public String getForwardResponse() {
-        return forwardResponse;
-    }
-
-    public int getSenderImageId() {
-        return senderImageId;
-    }
-
-    public void setSenderImageId(int senderImageId) {
-        this.senderImageId = senderImageId;
-    }
-
     public int getSimImageId() {
         if (this.simInfo != null && !this.simInfo.isEmpty()
-                && this.simInfo.replace("-", "").substring(0, 4).equals("SIM2")) {
+                && this.simInfo.replace("-", "").startsWith("SIM2")) {
             return R.mipmap.sim2;
         }
 

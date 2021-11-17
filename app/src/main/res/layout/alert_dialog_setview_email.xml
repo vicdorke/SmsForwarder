@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -18,16 +19,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置名称" />
+                android:text="@string/set_name" />
 
             <EditText
                 android:id="@+id/editTextEmailName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
+                android:autofillHints=""
                 android:ems="11"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
 
         <LinearLayout
@@ -40,16 +43,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发件服务器" />
+                android:text="@string/email_host" />
 
             <EditText
                 android:id="@+id/editTextEmailHost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
+                android:autofillHints=""
                 android:ems="14"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
 
         <LinearLayout
@@ -62,27 +67,30 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SMTP端口" />
+                android:text="@string/smtp_port" />
 
             <EditText
                 android:id="@+id/editTextEmailPort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
+                android:autofillHints=""
                 android:ems="5"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                tools:ignore="LabelFor,TextFields" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="开启SSL" />
+                android:text="@string/enable_ssl" />
 
             <Switch
                 android:id="@+id/switchEmailSSl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true" />
+                android:checked="true"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,16 +103,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发件人帐号" />
+                android:text="@string/email_account" />
 
             <EditText
                 android:id="@+id/editTextEmailFromAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
+                android:autofillHints=""
                 android:ems="14"
                 android:inputType="textEmailAddress"
-                android:text="" />
+                android:text=""
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -117,16 +127,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发件人昵称" />
+                android:text="@string/email_nickname" />
 
             <EditText
                 android:id="@+id/editTextEmailNickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
+                android:autofillHints=""
                 android:ems="14"
-                android:inputType=""
-                android:text="" />
+                android:inputType="text"
+                android:text=""
+                tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
 
         <LinearLayout
@@ -139,16 +151,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="登录密码/授权码" />
+                android:text="@string/email_password" />
 
             <EditText
                 android:id="@+id/editTextEmailPsw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
+                android:autofillHints=""
                 android:ems="14"
                 android:inputType="textPassword"
-                android:text="" />
+                android:text=""
+                tools:ignore="LabelFor,TextFields" />
         </LinearLayout>
 
         <LinearLayout
@@ -161,16 +175,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="收件地址" />
+                android:text="@string/email_to" />
 
             <EditText
                 android:id="@+id/editTextEmailToAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
+                android:autofillHints=""
                 android:ems="14"
                 android:inputType="textEmailAddress"
-                android:text="" />
+                android:text=""
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <LinearLayout
@@ -180,27 +196,30 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonemailok"
+                android:id="@+id/buttonEmailTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/ok" />
+                android:text="@string/test"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonemaildel"
+                android:id="@+id/buttonEmailDel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/del" />
+                android:text="@string/del"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
-                android:id="@+id/buttonemailtest"
+                android:id="@+id/buttonEmailOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:text="@string/test" />
+                android:text="@string/ok"
+                tools:ignore="ButtonStyle,NestedWeights" />
 
         </LinearLayout>
 

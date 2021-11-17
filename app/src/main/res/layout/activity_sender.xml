@@ -25,14 +25,13 @@
             android:textColor="@color/colorPrimary" />
 
         <Button
-            android:id="@+id/button22"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_margin="10dp"
             android:background="@color/colorPrimary"
             android:onClick="addSender"
             android:padding="0dp"
-            android:text="添加发送方" />
+            android:text="@string/new_sender" />
     </LinearLayout>
 
 </LinearLayout>
